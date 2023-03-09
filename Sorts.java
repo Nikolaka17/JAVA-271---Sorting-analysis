@@ -33,4 +33,18 @@ public abstract class Sorts {
             }
         }
     }
+    
+    public static void insertionSort(int[] a){
+        int cur = 0;
+        int index = 0;
+        for(int i = 1; i < a.length; i++){
+            index = i - 1;
+            cur = a[i];
+            while(index >= 0 && a[index] > cur){
+                a[index+1] = a[index];
+                index--;
+            }
+            a[index+1] = cur;
+        }
+    }
 }
