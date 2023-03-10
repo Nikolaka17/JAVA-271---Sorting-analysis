@@ -47,4 +47,40 @@ public abstract class Sorts {
             a[index+1] = cur;
         }
     }
+    
+    public static void quickSort(int[] a){
+        quickSort(a, 0, a.length - 1);
+    }
+    
+    public static void quickSort(int[] a, int low, int high){
+        int pivot = partition(a, low, high);
+        if(low < pivot){
+            quickSort(a, low, pivot - 1);
+        }
+        if(pivot < high){
+            quickSort(a, pivot + 1, high);
+        }
+    }
+    
+    private static int partition(int[] a, int low, int high){
+        int pivot = a[low];
+        while(low < high){
+            while(a[high] > pivot && low < high){
+                high--;
+            }
+            if(low != high){
+                a[low] = a[high];
+                low++;
+            }
+            while(a[low] < pivot && low < high){
+                low++;
+            }
+            if(low != high){
+                a[high] = a[low];
+                high--;
+            }
+        }
+        a[low] = pivot;
+        return low;
+    }
 }
