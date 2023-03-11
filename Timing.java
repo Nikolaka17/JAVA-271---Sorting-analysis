@@ -32,7 +32,7 @@ public class Timing {
         long end = System.nanoTime();
 
         if(isSorted(arr)){
-            System.out.println(timerFormat.format(end - start));
+            System.out.println(timerFormat.format((end - start) / Math.pow(10, 9)));
         }else{
             System.out.println("Sort didnt work");
         }
