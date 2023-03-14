@@ -4,8 +4,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
+/**
+ * Class that contains many different types of sorting algorithms
+ */
 public abstract class Sorts {
 
+    /**
+     * Method to test if an array is sorted
+     * @param a The integer array to test
+     * @return A boolean representing if the array is sorted
+     */
     public static boolean isSorted(int[] a){
         for(int i = 0; i < a.length - 1; i++){
             if(a[i] > a[i+1]){
@@ -15,6 +23,11 @@ public abstract class Sorts {
         return true;
     }
 
+    /**
+     * Method to test if an list is sorted
+     * @param a The integer based list to be tested
+     * @return A boolean representing if the list is sorted
+     */
     public static boolean isSorted(List<Integer> a){
         for(int i = 0; i < a.size() - 1; i++){
             if(a.get(i) > a.get(i)){
@@ -24,20 +37,12 @@ public abstract class Sorts {
         return true;
     }
 
-    public static int binarySearch(int[] a, int item, int low, int high){
-        while(low <= high){
-            int mid = low + (high - low) / 2;
-            if(item == a[mid]){
-                return mid;
-            }else if(item > a[mid]){
-                low = mid + 1;
-            }else{
-                high = mid - 1;
-            }
-        }
-        return low;
-    }
-
+    /**
+     * Method to swap two elements in an array
+     * @param a The integer array to swap elements in
+     * @param i The index of the first element to swap
+     * @param j The index of the second element to swap
+     */
     public static void swap(int[] a, int i, int j){
         if(a[i] != a[j]){
             a[i] ^= a[j];
@@ -46,7 +51,13 @@ public abstract class Sorts {
         }
     }
     
-    //O(n^2)
+    /**
+     * Bubble sort algorithm. Works by pushing the largest elements towards the back of the array
+     * Worst: O(n^2)
+     * Average: O(n^2)
+     * Best: O(n)
+     * @param a The integer array to sort
+     */
     public static void bubbleSort(int[] a){
         boolean swapped = true;
         int pass = 1;
@@ -62,7 +73,13 @@ public abstract class Sorts {
         }
     }
     
-    //O(n^2)
+    /**
+     * Selection sort algorithm. Works by finding the smallest elements and placing them in the front of the array
+     * Worst: O(n^2)
+     * Average: O(n^2)
+     * Best: O(n^2)
+     * @param a The integer array to sort
+     */
     public static void selectionSort(int[] a){
         int min = 0;
         for(int i = 0; i < a.length - 1; i++){
@@ -78,6 +95,13 @@ public abstract class Sorts {
         }
     }
 
+    /**
+     * A two sided selection sort. Works by finding the highest and lowest value in the array and placing them in the front and back of the array respectively
+     * Worst: O(n^2)
+     * Average: O(n^2)
+     * Best: ?
+     * @param a The integer array to sort
+     */
     public static void doubleSelectionSort(int[] a){
         for(int i = 0, j = a.length - 1; i < j; i++, j--){
             int min = i;
@@ -96,7 +120,13 @@ public abstract class Sorts {
         }
     }
     
-    //O(n^2)
+    /**
+     * An insertion sort algorithm. Moves lower values towards the front of the array
+     * Worst: O(n^2)
+     * Average: O(n^2)
+     * Best: O(n)
+     * @param a The integer array to sort
+     */
     public static void insertionSort(int[] a){
         int cur = 0;
         int index = 0;
@@ -111,6 +141,13 @@ public abstract class Sorts {
         }
     }
 
+    /**
+     * A binary insertion sort algorithm. Uses a binary search to find the location for an element to be inserted
+     * Worst: O(n^2)
+     * Average: ?
+     * Best: ?
+     * @param a The integer array to be sorted
+     */
     public static void binaryInsertionSort(int[] a){
         for(int i = 1; i < a.length; i++){
             int x = a[i];
@@ -600,17 +637,6 @@ public abstract class Sorts {
         }
     }
 
-    //O(nlgn)
-    /*public static void treeSort(int[] a){
-        BinaryTree<Integer> tree = new BinaryTree();
-        for(int i: a){
-            tree.add(new Integer(i));
-        }
-        Node<Integer>[] sorted = tree.inorder();
-        for(int i = 0; i < sorted.length; i++){
-            a[i] = Arrays.asList(sorted).get(i).getData().intValue();
-        }
-    }*/
 
     //O(n + 2^k)
     public static void pigeonholeSort(int[] a){
@@ -693,4 +719,16 @@ public abstract class Sorts {
             stoogeSort(a, l, h - pivot);
         }
     }
+    
+    //O(nlgn)
+    /*public static void treeSort(int[] a){
+        BinaryTree<Integer> tree = new BinaryTree();
+        for(int i: a){
+            tree.add(new Integer(i));
+        }
+        Node<Integer>[] sorted = tree.inorder();
+        for(int i = 0; i < sorted.length; i++){
+            a[i] = Arrays.asList(sorted).get(i).getData().intValue();
+        }
+    }*/
 }
