@@ -23,6 +23,28 @@ public abstract class Sorts {
         }
         return true;
     }
+
+    public static int binarySearch(int[] a, int item, int low, int high){
+        while(low <= high){
+            int mid = low + (high - low) / 2;
+            if(item == a[mid]){
+                return mid;
+            }else if(item > a[mid]){
+                low = mid + 1;
+            }else{
+                high = mid - 1;
+            }
+        }
+        return low;
+    }
+
+    public static void swap(int[] a, int i, int j){
+        if(a[i] != a[j]){
+            a[i] ^= a[j];
+            a[j] ^= a[i];
+            a[i] ^= a[j];
+        }
+    }
     
     //O(n^2)
     public static void bubbleSort(int[] a){
@@ -32,9 +54,7 @@ public abstract class Sorts {
             swapped = false;
             for(int i = 0; i < a.length - pass; i++){
                 if(a[i] > a[i+1]){
-                    a[i] ^= a[i+1];
-                    a[i+1] ^= a[i];
-                    a[i] ^= a[i+1];
+                    swap(a, i, i+1);
                     swapped = true;
                 }
             }
@@ -46,16 +66,32 @@ public abstract class Sorts {
     public static void selectionSort(int[] a){
         int min = 0;
         for(int i = 0; i < a.length - 1; i++){
-            min = 1;
+            min = i;
             for(int j = i + 1; j < a.length; j++){
                 if(a[j] < a[min]){
                     min = j;
                 }
             }
             if(i != min){
-                a[i] ^= a[min];
-                a[min] ^= a[i];
-                a[i] ^= a[min];
+                swap(a, i, min);
+            }
+        }
+    }
+
+    public static void doubleSelectionSort(int[] a){
+        for(int i = 0, j = a.length - 1; i < j; i++, j--){
+            int min = i;
+            int max = i;
+            for(int k = i; k <= j; k++){
+                min = (a[k] < a[min])?k:min;
+                max = (a[k] > a[max])?k:max;
+            }
+            int maxStore = a[max];
+            swap(a, i, min);
+            if(a[min] == maxStore){
+                swap(a, j, min);
+            }else{
+                swap(a, j, max);
             }
         }
     }
@@ -74,10 +110,23 @@ public abstract class Sorts {
             a[index+1] = cur;
         }
     }
+
+    public static void binaryInsertionSort(int[] a){
+        for(int i = 1; i < a.length; i++){
+            int x = a[i];
+            int j = Math.abs(Arrays.binarySearch(a, 0, i, x) + 1);
+            System.arraycopy(a, j, a, j+1, i-j);
+            a[j] = x;
+        }
+    }
     
     //O(nlgn)
     public static void quickSort(int[] a){
         quickSort(a, 0, a.length - 1);
+    }
+
+    public static void dualPivotQuickSort(int[] a){
+        dualPivotQuickSort(a, 0, a.length - 1);
     }
     
     public static void quickSort(int[] a, int low, int high){
@@ -87,6 +136,15 @@ public abstract class Sorts {
         }
         if(pivot < high){
             quickSort(a, pivot + 1, high);
+        }
+    }
+
+    public static void dualPivotQuickSort(int[] a, int low, int high){
+        if(low < high){
+            int[] pivot = dualPartition(a, low, high);
+            dualPivotQuickSort(a, low, pivot[0] - 1);
+            dualPivotQuickSort(a, pivot[0] + 1, pivot[1] - 1);
+            dualPivotQuickSort(a, pivot[1] + 1, high);
         }
     }
     
@@ -112,6 +170,39 @@ public abstract class Sorts {
         return low;
     }
 
+    private static int[] dualPartition(int[] a, int low, int high){
+        if(a[low] > a[high]){
+            swap(a, low, high);
+        }
+        int j = low + 1;
+        int g = high - 1;
+        int k = low + 1;
+        int p = a[low];
+        int q = a[high];
+        while(k <= g){
+            if(a[k] < p){
+                swap(a, k, j);
+                j++;
+            }else if(a[k] >= q){
+                while(a[g] > q && k < g){
+                    g--;
+                }
+                swap(a, k, g);
+                g--;
+                if(a[k] < p){
+                    swap(a, k, j);
+                    j++;
+                }
+            }
+            k++;
+        }
+        j--;
+        g++;
+        swap(a, low, j);
+        swap(a, high, g);
+        return new int[]{j, g};
+    }
+
     //O(nlgn)
     public static void heapSort(int[] a){
         int n = a.length;
@@ -121,9 +212,7 @@ public abstract class Sorts {
         }
 
         for(int i = n - 1; i > 0; i--){
-            a[0] ^= a[i];
-            a[i] ^= a[0];
-            a[0] ^= a[i];
+            swap(a, 0, i);
             heapify(a, i, 0);
         }
     }
@@ -142,9 +231,7 @@ public abstract class Sorts {
         }
 
         if(largest != i){
-            a[i] ^= a[largest];
-            a[largest] ^= a[i];
-            a[i] ^= a[largest];
+            swap(a, i, largest);
 
             heapify(a, n, largest);
         }
@@ -248,9 +335,7 @@ public abstract class Sorts {
             swapped = false;
             for(int i = 0; i < a.length - 1; i++){
                 if(a[i] > a[i+1]){
-                    a[i] ^= a[i+1];
-                    a[i+1] ^= a[i];
-                    a[i] ^= a[i+1];
+                    swap(a, i, i+1);
                     swapped = true;
                 }
             }
@@ -258,9 +343,7 @@ public abstract class Sorts {
                 swapped = false;
                 for(int i = a.length - 2; i >= 0; i--){
                     if(a[i] > a[i+1]){
-                        a[i] ^= a[i+1];
-                        a[i+1] ^= a[i];
-                        a[i] ^= a[i+1];
+                        swap(a, i, i+1);
                         swapped = true; 
                     }
                 }
@@ -275,9 +358,7 @@ public abstract class Sorts {
             if(pos == 0 || a[pos] > a[pos - 1]){
                 pos++;
             }else{
-                a[pos] ^= a[pos-1];
-                a[pos-1] ^= a[pos];
-                a[pos] ^= a[pos-1];
+                swap(a, pos, pos-1);
                 pos--;
             }
         }
@@ -290,17 +371,13 @@ public abstract class Sorts {
             swapped = false;
             for(int i = 1; i < a.length - 1; i += 2){
                 if(a[i] >= a[i+1]){
-                    a[i] ^= a[i+1];
-                    a[i+1] ^= a[i];
-                    a[i] ^= a[i+1];
+                    swap(a, i, i+1);
                     swapped = true;
                 }
             }
             for(int i = 0; i < a.length - 1; i += 2){
                 if(a[i] >= a[i+1]){
-                    a[i] ^= a[i+1];
-                    a[i+1] ^= a[i];
-                    a[i] ^= a[i+1];
+                    swap(a, i, i+1);
                     swapped = true;
                 }
             }
@@ -414,9 +491,7 @@ public abstract class Sorts {
         for(int i = 0; i < a.length - 1; i++){
             for(int j = i + 1; j < a.length; j++){
                 if(a[i] > a[j]){
-                    a[i] ^= a[j];
-                    a[j] ^= a[i];
-                    a[i] ^= a[j];
+                    swap(a, i, j);
                 }
             }
         }
@@ -435,9 +510,7 @@ public abstract class Sorts {
             }
             for(int i = 0; i + gap < a.length; i++){
                 if(a[i] > a[i+gap]){
-                    a[i] ^= a[i+gap];
-                    a[i+gap] ^= a[i];
-                    a[i] ^= a[i+gap];
+                    swap(a, i, i+gap);
                     swapped = true;
                 }
             }
@@ -478,10 +551,10 @@ public abstract class Sorts {
     }
 
     //O(n^2)
-    /*public static void pancakeSort(int[] a){
+    public static void pancakeSort(int[] a){
         for(int i = a.length; i > 1; i--){
             int max = 0;
-            for(int j = 1; j < a.length; j++){
+            for(int j = 1; j < i; j++){
                 if(a[j] > a[max]){
                     max = j;
                 }
@@ -496,16 +569,14 @@ public abstract class Sorts {
     private static void flip(int[] a, int k){
         int left = 0;
         while(left < k){
-            a[left] ^= a[k];
-            a[k] ^= a[left];
-            a[left] ^= a[k];
+            swap(a, k, left);
             k--;
             left++;
         }
-    }*/
+    }
 
     //O(m * n)
-    /*public static void bingoSort(int[] a){
+    public static void bingoSort(int[] a){
         int bingo = a[0];
         int next = a[0];
         for(int i = 0; i < a.length; i++){
@@ -518,9 +589,7 @@ public abstract class Sorts {
             int start = nextPos;
             for(int i = start; i < a.length; i++){
                 if(a[i] == bingo){
-                    a[i] ^= a[nextPos];
-                    a[nextPos] ^= a[i];
-                    a[i] ^= a[nextPos];
+                    swap(a, i, nextPos);
                     nextPos++;
                 }else if(a[i] < next){
                     next = a[i];
@@ -529,5 +598,99 @@ public abstract class Sorts {
             bingo = next;
             next = largest;
         }
+    }
+
+    //O(nlgn)
+    /*public static void treeSort(int[] a){
+        BinaryTree<Integer> tree = new BinaryTree();
+        for(int i: a){
+            tree.add(new Integer(i));
+        }
+        Node<Integer>[] sorted = tree.inorder();
+        for(int i = 0; i < sorted.length; i++){
+            a[i] = Arrays.asList(sorted).get(i).getData().intValue();
+        }
     }*/
+
+    //O(n + 2^k)
+    public static void pigeonholeSort(int[] a){
+        int min = a[0];
+        int max = a[0];
+        for(int i = 1; i < a.length; i++){
+            min = Math.min(min, a[i]);
+            max = Math.max(max, a[i]);
+        }
+        int range = max - min + 1;
+        int[] holes = new int[range];
+        for(int i = 0; i < a.length; i++){
+            holes[a[i]-min]++;
+        }
+        int index = 0;
+        for(int i = 0; i < range; i++){
+            while(holes[i]-->0){
+                a[index++] = i + min;
+            }
+        }
+    }
+
+    //O(n^2)
+    public static void cycleSort(int[] a){
+        for(int i = 0; i <= a.length - 2; i++){
+            int item = a[i];
+            int pos = i;
+            for(int j = i + 1; j < a.length; j++){
+                if(a[j] < item){
+                    pos++;
+                }
+            }
+            if(pos != i){
+                while(item == a[pos]){
+                    pos++;
+                }
+                if(pos != i){
+                    if(item != a[pos]){
+                        item ^= a[pos];
+                        a[pos] ^= item;
+                        item ^= a[pos];
+                    }
+                }
+                while(pos != i){
+                    pos = i;
+                    for(int j = i + 1; j < a.length; j++){
+                        if(a[j] < item){
+                            pos++;
+                        }
+                    }
+                    while(item == a[pos]){
+                        pos++;
+                    }
+                    if(item != a[pos]){
+                        item ^= a[pos];
+                        a[pos] ^= item;
+                        item ^= a[pos];
+                    }
+                }
+            }
+        }
+    }
+
+    //O(n^(lg3/lg1.5))
+    public static void stoogeSort(int[] a){
+        stoogeSort(a, 0, a.length - 1);
+    }
+
+    public static void stoogeSort(int[] a, int l, int h){
+        if(l >= h){
+            return;
+        }
+        if(a[l] > a[h]){
+            swap(a, l, h);
+        }
+        if(h - l + 1 > 2){
+            int pivot = (h - l + 1) / 3;
+            stoogeSort(a, l, h - pivot);
+            stoogeSort(a, l + pivot, h);
+            stoogeSort(a, l, h - pivot);
+        }
+    }
 }
