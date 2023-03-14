@@ -121,7 +121,7 @@ public abstract class Sorts {
     }
     
     /**
-     * An insertion sort algorithm. Moves lower values towards the front of the array
+     * An insertion sort algorithm. Works by looking at each value one by one and moves them into the correct position
      * Worst: O(n^2)
      * Average: O(n^2)
      * Best: O(n)
@@ -142,7 +142,7 @@ public abstract class Sorts {
     }
 
     /**
-     * A binary insertion sort algorithm. Uses a binary search to find the location for an element to be inserted
+     * A binary insertion sort algorithm. Works by using a binary search to find the location for an element to be inserted
      * Worst: O(n^2)
      * Average: ?
      * Best: ?
@@ -157,15 +157,34 @@ public abstract class Sorts {
         }
     }
     
-    //O(nlgn)
+    /**
+     * A quick sort algorithm. Works by sorting an array into two sides based off a pivot value and recursively calling each side
+     * Worst: O(n^2)
+     * Average: O(nlogn)
+     * Best: O(nlogn)
+     * @param a The integer array to be sorted
+     */
     public static void quickSort(int[] a){
         quickSort(a, 0, a.length - 1);
     }
 
+    /**
+     * A dual pivot quick sort algorithm. Follows the same principal as the regular quick sort but uses two pivot values and splits lists into thirds instead
+     * Worst: O(n^2)
+     * Average: ?
+     * Best: ?
+     * @param a The integer array to be sorted
+     */
     public static void dualPivotQuickSort(int[] a){
         dualPivotQuickSort(a, 0, a.length - 1);
     }
     
+    /**
+     * Recursive method for quick sort. Performs a quick sort on the range of [low, high]
+     * @param a The integer array to be sorted
+     * @param low The index for the left side of the range
+     * @param high The index for the right side of the range
+     */
     public static void quickSort(int[] a, int low, int high){
         int pivot = partition(a, low, high);
         if(low < pivot){
@@ -176,6 +195,12 @@ public abstract class Sorts {
         }
     }
 
+    /**
+     * Recursive method for dual pivot quick sort. Performs a dual pivot quick sort on the range of [low, high]
+     * @param a The integer array to be sorted
+     * @param low The index for the left side of the range
+     * @param high The index for the right side of the range
+     */
     public static void dualPivotQuickSort(int[] a, int low, int high){
         if(low < high){
             int[] pivot = dualPartition(a, low, high);
@@ -185,6 +210,13 @@ public abstract class Sorts {
         }
     }
     
+    /**
+     * Utility method for quick sort. Organizes an array based off of a pivot. Pivot is selected as the first element in the range
+     * @param a The integer array to partition
+     * @param low The index for the left side of the range
+     * @param high The index for the right side of the range
+     * @return The index of the location of the pivot value
+     */
     private static int partition(int[] a, int low, int high){
         int pivot = a[low];
         while(low < high){
@@ -207,6 +239,13 @@ public abstract class Sorts {
         return low;
     }
 
+    /**
+     * Utility method for dual pivot quick sort. Organizes an array based off of two pivot values. Pivots are selected to be the first and last values of the array
+     * @param a The integer array to partition
+     * @param low The index for the left side of the range
+     * @param high The index for the right side of the range
+     * @return An array containing the locations of both pivot values
+     */
     private static int[] dualPartition(int[] a, int low, int high){
         if(a[low] > a[high]){
             swap(a, low, high);
@@ -240,20 +279,30 @@ public abstract class Sorts {
         return new int[]{j, g};
     }
 
-    //O(nlgn)
+    /**
+     * A heap sort algorithm. Works by using a binary heap to sift low values down
+     * Worst: O(nlogn)
+     * Average: O(nlogn)
+     * Best: O(nlogn)
+     * @param a The integer array to sort
+     */
     public static void heapSort(int[] a){
-        int n = a.length;
-
-        for(int i = n / 2 - 1; i >= 0; i--){
-            heapify(a, n, i);
+        for(int i = a.length / 2 - 1; i >= 0; i--){
+            heapify(a, a.length, i);
         }
 
-        for(int i = n - 1; i > 0; i--){
+        for(int i = a.length - 1; i > 0; i--){
             swap(a, 0, i);
             heapify(a, i, 0);
         }
     }
 
+    /**
+     * A utility method to create a binary heap of an array
+     * @param a The array to make a heap out of
+     * @param n The size of the heap
+     * @param i The root node
+     */
     private static void heapify(int[] a, int n, int i){
         int largest = i;
         int l = 2 * i + 1;
@@ -274,7 +323,13 @@ public abstract class Sorts {
         }
     }
 
-    //O(S)
+    /**
+     * A bead sort algorithm. Works by following abdacus arithmetic. Only usable on integers greater than zero
+     * Worst: O(S) Where s is the sum of all values in the array
+     * Average: O(S) Where s is the sum of all values in the array
+     * Best: O(n)
+     * @param a The integer array to be sorted
+     */
     public static void beadSort(int[] a){
         int max = a[0];
         for(int i = 0; i < a.length; i++){
@@ -304,7 +359,13 @@ public abstract class Sorts {
         }
     }
 
-    //O(nlgn)
+    /**
+     * A patience sort algorithm. Works by creating piles of decending elements and picking top level elements in order
+     * Worst: O(nlogn)
+     * Average: O(nlogn)
+     * Best: O(n)
+     * @param a The integer array to sort
+     */
     public static void patienceSort(int[] a){
         ArrayList<ArrayList<Integer>> piles = new ArrayList<ArrayList<Integer>>();
 
@@ -336,6 +397,11 @@ public abstract class Sorts {
         }
     }
 
+    /**
+     * Utility method to select items in order from an arraylist of arraylists
+     * @param piles The piles to merge into a single pile
+     * @return An arraylist containing all the values of the piles in sorted order
+     */
     private static ArrayList<Integer> mergePiles(ArrayList<ArrayList<Integer>> piles){
         ArrayList<Integer> result = new ArrayList<Integer>();
         boolean flag = true;
@@ -364,7 +430,13 @@ public abstract class Sorts {
         return result;
     }
 
-    //O(n^2)
+    /**
+     * A cocktail shaker sort algorithm. Works by performing the bubble sort in both directions each iteration
+     * Worst: O(n^2)
+     * Average: O(n^2)
+     * Best: O(n)
+     * @param a The integer array to sort
+     */
     public static void cocktailShakerSort(int[] a){
         boolean swapped = true;
 
@@ -388,7 +460,13 @@ public abstract class Sorts {
         }
     }
 
-    //O(n^2)
+    /**
+     * A gnome sort algorithm. Works by swapping small elements forward one at a time
+     * Worst: O(n^2)
+     * Average: O(n^2)
+     * Best: O(n)
+     * @param a The integer array to sort
+     */
     public static void gnomeSort(int[] a){
         int pos = 0;
         while(pos < a.length){
@@ -401,7 +479,13 @@ public abstract class Sorts {
         }
     }
 
-    //O(n^2)
+    /**
+     * An odd even sort algorithm. Works by performing a bubble sort on odd and even values separately
+     * Worst: O(n^2)
+     * Average: O(n^2)
+     * Best: O(n)
+     * @param a The integer array to sort
+     */
     public static void oddEvenSort(int[] a){
         boolean swapped = true;
         while(swapped){
@@ -421,11 +505,22 @@ public abstract class Sorts {
         }
     }
 
-    //O(n^4/3)
+    /**
+     * A shell sort algorithm. Works by comparing far apart elements first and progressively lowering the size of the gap
+     * Worst: O(n^3/2)
+     * Average: O(n^4/3)
+     * Best: O(nlogn)
+     * @param a The integer array to sort
+     */
     public static void shellSort(int[] a){
         shellSort(a, new int[]{701, 301, 132, 57, 23, 10, 4, 1});
     }
 
+    /**
+     * Shell sort with a user defined gap array
+     * @param a The integer array to sort
+     * @param gaps The gaps to follow
+     */
     public static void shellSort(int[] a, int[] gaps){
         for(int gap: gaps){
             for(int i = gap; i < a.length; i++){
@@ -439,7 +534,13 @@ public abstract class Sorts {
         }
     }
 
-    //O(n * n!)
+    /**
+     * A bogo sort algorithm. Works by shuffling the array until it is sorted
+     * Worst: O(infinity)
+     * Average: O(n * n!)
+     * Best: O(n)
+     * @param a The integer array to sort
+     */
     public static void bogoSort(int[] a){
         while(!isSorted(a)){
             List<Integer> temp = Arrays.stream(a).boxed().collect(Collectors.toList());
@@ -450,11 +551,22 @@ public abstract class Sorts {
         }
     }
 
-    //O(n + r)
+    /**
+     * A bucket sort algorithm. Works by creating buckets of different element ranges to sort separately
+     * Worst: O(n^2 + k) Where k is the number of buckets
+     * Average: O(n + k) Where k is the number of buckets
+     * Best: ?
+     * @param a The integer array to sort
+     */
     public static void bucketSort(int[] a){
         bucketSort(a, a.length);
     }
 
+    /**
+     * A method that performs a bucket sort with a user defined number of buckets
+     * @param a The integer array to sort
+     * @param k The number of buckets to use
+     */
     public static void bucketSort(int[] a, int k){
         @SuppressWarnings("unchecked")
         ArrayList<Integer>[] buckets = new ArrayList[k];
@@ -488,10 +600,22 @@ public abstract class Sorts {
         }
     }
 
+    /**
+     * An optimized bucket sort algorithm. Works by separating elements into buckets before placing them back in array and using an insertion sort
+     * Worst: ?
+     * Average: ?
+     * Best: ?
+     * @param a The integer array to sort
+     */
     public static void optimizedBucketSort(int[] a){
         optimizedBucketSort(a, a.length);
     }
 
+    /**
+     * A method that performs an optimized bucket sort for a user defined amount of buckets
+     * @param a The integer array to sort
+     * @param k The number of buckets to use
+     */
     public static void optimizedBucketSort(int[] a, int k){
         @SuppressWarnings("unchecked")
         ArrayList<Integer>[] buckets = new ArrayList[k];
@@ -659,7 +783,13 @@ public abstract class Sorts {
         }
     }
 
-    //O(n^2)
+    /**
+     * A cycle sort algorithm. Works by cycling elements into their correct positions
+     * Worst: O(n^2)
+     * Average: O(n^2)
+     * Best: O(n^2)
+     * @param a The integer array to sort
+     */
     public static void cycleSort(int[] a){
         for(int i = 0; i <= a.length - 2; i++){
             int item = a[i];
@@ -700,11 +830,23 @@ public abstract class Sorts {
         }
     }
 
-    //O(n^(lg3/lg1.5))
+    /**
+     * A stooge sort algorithm. Works by swapping first and last values if they are incorrect positions then recusively sorting the first two thirds of the list, the second two thirds of the list, and the first two thirds of the list a second time
+     * Worst: O(n^(log3/log1.5))
+     * Average: O(n^(log3/log1.5))
+     * Best: O(n^(log3/log1.5))
+     * @param a The integer array to sort
+     */
     public static void stoogeSort(int[] a){
         stoogeSort(a, 0, a.length - 1);
     }
 
+    /**
+     * A method that performs the stooge sort over a given interval of indexes
+     * @param a The integer array to sort
+     * @param l The index of the left side of the interval, inclusive
+     * @param h The index of the right side of the interval, inclusive
+     */
     public static void stoogeSort(int[] a, int l, int h){
         if(l >= h){
             return;
@@ -720,9 +862,12 @@ public abstract class Sorts {
         }
     }
     
-    //O(nlgn)
-    /*public static void treeSort(int[] a){
-        BinaryTree<Integer> tree = new BinaryTree();
+    /**
+     * A tree sort algorithm. Works by creating and performing an inorder traversal on a binary tree based off the array
+     * @param a The integer array to sort
+     */
+    public static void treeSort(int[] a){
+        BinaryTree<Integer> tree = new BinaryTree<Integer>();
         for(int i: a){
             tree.add(new Integer(i));
         }
@@ -730,5 +875,5 @@ public abstract class Sorts {
         for(int i = 0; i < sorted.length; i++){
             a[i] = Arrays.asList(sorted).get(i).getData().intValue();
         }
-    }*/
+    }
 }
