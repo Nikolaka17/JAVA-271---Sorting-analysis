@@ -6,24 +6,21 @@ import java.io.FileNotFoundException;
 public class Timing {
     
     private static final int SIZE = 10000;
-    private static final String TENK = "small.txt";
-    private static final String FORTYK = "med.txt";
-    private static final String THREESIXTYK = "large.txt";
-    private static final String FOURMIL = "xlarge.txt";
-    private static final String TWOSIXTEENMIL = "huge.txt";
+    private static final String PATH = "C:\\Users\\nikol\\Code\\Math-271\\data.txt";
+
     public static void main(String[] args){
         Scanner fileReader = null;
         DecimalFormat timerFormat = new DecimalFormat("0.000000#");
         int[] arr = new int[SIZE];
 
         try{
-            fileReader = new Scanner(new File(TENK));
+            fileReader = new Scanner(new File(PATH));
         }catch(FileNotFoundException e){
             System.out.println(e.getMessage());
             System.exit(0);
         }
-        
-        for(int i = 0; i < SIZE; i++){
+
+        for(int i = 0; i < arr.length; i++){
             arr[i] = fileReader.nextInt();
         }
 
