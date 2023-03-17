@@ -647,7 +647,13 @@ public abstract class Sorts {
         insertionSort(a);
     }
 
-    //O(n^2)
+    /**
+     * An exchange sort algorithm. Variation of bubble sort that test each position against every other element
+     * Worst: ?
+     * Average: O(n^2)
+     * Best: ?
+     * @param a The integer array to sort
+     */
     public static void exchangeSort(int[] a){
         for(int i = 0; i < a.length - 1; i++){
             for(int j = i + 1; j < a.length; j++){
@@ -658,7 +664,13 @@ public abstract class Sorts {
         }
     }
 
-    //O(n^2)
+    /**
+     * A comb sort algorithm. Variation of bubble sort where a gap is used to separate compared values
+     * Worst: O(n^2)
+     * Average: O(n^2)
+     * Best: O(nlogn)
+     * @param a The integer array to sort
+     */
     public static void combSort(int[] a){
         int gap = a.length;
         double shrink = 1.3;
@@ -678,7 +690,13 @@ public abstract class Sorts {
         }
     }
 
-    //O(n + r)
+    /**
+     * A counting sort algorithm. Works by performing math on key values.
+     * Worst: O(n + k)
+     * Average: O(n + k)
+     * Best: ?
+     * @param a The integer array to sort
+     */
     public static void countingSort(int[] a){
         int max = 0;
         for(int i: a){
@@ -689,6 +707,11 @@ public abstract class Sorts {
         countingSort(a, max);
     }
 
+    /**
+     * Utility method to perform counting sort on maximum value of the array
+     * @param a The integer array to sort
+     * @param k The maximum key value
+     */
     private static void countingSort(int[] a, int k){
         int[] count = new int[k + 1];
         int[] output = new int[a.length];
@@ -711,7 +734,10 @@ public abstract class Sorts {
         }
     }
 
-    //O(n^2)
+    /**
+     * A pancake sort algorithm. Uses the pancake stack problem to sort an array
+     * @param a The integer array to sort
+     */
     public static void pancakeSort(int[] a){
         for(int i = a.length; i > 1; i--){
             int max = 0;
@@ -727,6 +753,11 @@ public abstract class Sorts {
         }
     }
 
+    /**
+     * A utility method to flip a stack of numbers from 0 to k
+     * @param a The integer array to flip
+     * @param k The index of the final position of the stack
+     */
     private static void flip(int[] a, int k){
         int left = 0;
         while(left < k){
@@ -736,7 +767,13 @@ public abstract class Sorts {
         }
     }
 
-    //O(m * n)
+    /**
+     * A bingo sort algorithm. Works by moving all equivalent elements to the front from lowest value to highest
+     * Worst: O(m * n) Where m is the number of distinct elements
+     * Average: O(m * n) Where m is the number of distinct elements
+     * Best: O(n * m^2) Where m is the number of distinct elements
+     * @param a The integer array to sort
+     */
     public static void bingoSort(int[] a){
         int bingo = a[0];
         int next = a[0];
@@ -761,8 +798,13 @@ public abstract class Sorts {
         }
     }
 
-
-    //O(n + 2^k)
+    /**
+     * A pigeonhole sort algorithm. Works by creating an array corresponding to the key value sof the original array
+     * Worst: O(n + 2^k)
+     * Average: O(n + 2^k)
+     * Best: ?
+     * @param a The integer array to sort
+     */
     public static void pigeonholeSort(int[] a){
         int min = a[0];
         int max = a[0];
@@ -864,6 +906,9 @@ public abstract class Sorts {
     
     /**
      * A tree sort algorithm. Works by creating and performing an inorder traversal on a binary tree based off the array
+     * Worst: ?
+     * Average: O(nlogn)
+     * Best: ?
      * @param a The integer array to sort
      */
     public static void treeSort(int[] a){
