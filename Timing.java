@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 public class Timing {
     
     private static final int SIZE = 4320000;
-    private static final String PATH = "C:\\Users\\nikol\\Code\\Math-271\\data.txt";
+    private static final String PATH = "data.txt";
 
     public static void main(String[] args){
         Scanner fileReader = null;
