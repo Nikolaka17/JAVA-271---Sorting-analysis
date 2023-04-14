@@ -911,7 +911,7 @@ public abstract class Sorts {
      * Best: ?
      * @param a The integer array to sort
      */
-    public static void treeSort(int[] a){
+    /**public static void treeSort(int[] a){
         BinaryTree<Integer> tree = new BinaryTree<Integer>();
         for(int i: a){
             tree.add(new Integer(i));
@@ -920,7 +920,7 @@ public abstract class Sorts {
         for(int i = 0; i < sorted.length; i++){
             a[i] = Arrays.asList(sorted).get(i).getData().intValue();
         }
-    }
+    }*/
 	
 	/**
      * A merge sort algorithm. Works by splitting lists into sublists to sort recursively
