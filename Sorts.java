@@ -921,4 +921,64 @@ public abstract class Sorts {
             a[i] = Arrays.asList(sorted).get(i).getData().intValue();
         }
     }
+	
+	/**
+     * A merge sort algorithm. Works by splitting lists into sublists to sort recursively
+     * Worst: O(nlogn)
+     * Average: O(nlogn)
+     * Best: O(nlogn)
+     * @param a The integer array to sort
+     */
+    public static void mergeSort(int[] a){
+        int[] b = a.clone();
+        order(b, a, 0, a.length-1);
+    }
+
+    /**
+     * Helper method to perform recursion on split arrays for merge sort
+     * @param source The array to copy from
+     * @param dest The array to copy to
+     * @param l The index of the left side of the subgroup
+     * @param h The index of the right side of the subgroup
+     */
+    private static void order(int[] source, int[] dest, int l, int h){
+        if(l != h){
+            int mid = (l + h) / 2;
+            order(dest, source, l, mid);
+            order(dest, source, mid + 1, h);
+            merge(source, dest, l, mid, h);
+        }
+    }
+
+    /**
+     * Helper method to merge two sublists
+     * @param source The array to copy from
+     * @param dest The array to copy to
+     * @param l The index of the left side of the first subgroup
+     * @param mid The index of the right side of the first subgroup
+     * @param h The index of the right side of the second subgroup
+     */
+    private static void merge(int[] source, int[] dest, int l, int mid, int h){
+        int i = l;
+        int j = mid + 1;
+        int index = l;
+        do{
+            if(source[i] < source[j]){
+                dest[index] = source[i++];
+            }else{
+                dest[index] = source[j++];
+            }
+            index++;
+        }while(i <= mid && j <= h);
+
+        if(i > mid){
+            do{
+                dest[index++] = source[j++];
+            }while(j <= h);
+        }else{
+            do{
+                dest[index++] = source[i++];
+            }while(i <= mid);
+        }
+    }
 }
